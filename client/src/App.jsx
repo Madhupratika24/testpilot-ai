@@ -1,50 +1,40 @@
-import { useEffect, useState } from "react";
-import { Rocket, CheckCircle2, XCircle } from "lucide-react";
-import api from "./services/api";
+import { Routes, Route, Navigate } from "react-router-dom";
+import AppLayout from "./layouts/AppLayout.jsx";
+
+import Landing from "./pages/Landing.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Analyzer from "./pages/Analyzer.jsx";
+import Review from "./pages/Review.jsx";
+import TestCases from "./pages/TestCases.jsx";
+import Improve from "./pages/Improve.jsx";
+import History from "./pages/History.jsx";
+import Reports from "./pages/Reports.jsx";
+import Profile from "./pages/Profile.jsx";
 
 export default function App() {
-  const [health, setHealth] = useState(null);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    api
-      .get("/health")
-      .then((res) => setHealth(res.data))
-      .catch(() => setError("Cannot reach the backend. Is the server running?"));
-  }, []);
-
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-sm border border-slate-200">
-        <div className="flex items-center gap-2 mb-6">
-          <Rocket className="text-indigo-600" />
-          <h1 className="text-xl font-semibold">TestPilot AI</h1>
-        </div>
+    <Routes>
+      {/* Public pages */}
+      <Route path="/" element={<Landing />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
-        {error && (
-          <p className="flex items-center gap-2 text-red-600">
-            <XCircle size={18} /> {error}
-          </p>
-        )}
+      {/* Pages inside the sidebar layout */}
+      <Route element={<AppLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/analyzer" element={<Analyzer />} />
+        <Route path="/review" element={<Review />} />
+        <Route path="/test-cases" element={<TestCases />} />
+        <Route path="/improve" element={<Improve />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/profile" element={<Profile />} />
+      </Route>
 
-        {health && (
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2 text-green-600">
-              <CheckCircle2 size={18} /> API status: {health.status}
-            </li>
-            <li
-              className={`flex items-center gap-2 ${
-                health.database === "connected" ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {health.database === "connected" ? <CheckCircle2 size={18} /> : <XCircle size={18} />}
-              Database: {health.database}
-            </li>
-          </ul>
-        )}
-
-        {!health && !error && <p className="text-slate-500">Checking connection...</p>}
-      </div>
-    </div>
+      {/* Unknown address goes back to the landing page */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }

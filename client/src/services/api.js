@@ -5,4 +5,13 @@ const api = axios.create({
   timeout: 60000,
 });
 
+// Attach the login token to every request automatically
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export default api;

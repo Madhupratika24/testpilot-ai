@@ -1,6 +1,10 @@
 import { Menu } from "lucide-react";
+import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Topbar({ onMenuClick }) {
+  const { user } = useAuth();
+  const initial = user?.name?.charAt(0).toUpperCase() || "?";
+
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
       <button
@@ -13,11 +17,11 @@ export default function Topbar({ onMenuClick }) {
 
       <div className="ml-auto flex items-center gap-3">
         <div className="text-right">
-          <p className="text-sm font-medium">Guest</p>
-          <p className="text-xs text-slate-500">Login comes in Phase 3</p>
+          <p className="text-sm font-medium">{user?.name}</p>
+          <p className="text-xs text-slate-500">{user?.email}</p>
         </div>
         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-100 font-semibold text-indigo-700">
-          G
+          {initial}
         </div>
       </div>
     </header>

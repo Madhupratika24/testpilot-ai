@@ -11,6 +11,7 @@ import {
   LogOut,
   Rocket,
 } from "lucide-react";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const mainLinks = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -24,6 +25,7 @@ const mainLinks = [
 
 export default function Sidebar({ open, onClose }) {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${
@@ -33,7 +35,7 @@ export default function Sidebar({ open, onClose }) {
     }`;
 
   function handleLogout() {
-    // Real logout comes in Phase 3
+    logout();
     navigate("/");
   }
 

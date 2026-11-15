@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 import Landing from "./pages/Landing.jsx";
 import Login from "./pages/Login.jsx";
@@ -21,19 +22,21 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* Pages inside the sidebar layout */}
-      <Route element={<AppLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/analyzer" element={<Analyzer />} />
-        <Route path="/review" element={<Review />} />
-        <Route path="/test-cases" element={<TestCases />} />
-        <Route path="/improve" element={<Improve />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/profile" element={<Profile />} />
+      {/* Private pages: only for logged-in users */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/analyzer" element={<Analyzer />} />
+          <Route path="/review" element={<Review />} />
+          <Route path="/review/:id" element={<Review />} />
+          <Route path="/test-cases" element={<TestCases />} />
+          <Route path="/improve" element={<Improve />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Route>
 
-      {/* Unknown address goes back to the landing page */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

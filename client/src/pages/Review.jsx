@@ -8,6 +8,7 @@ import ErrorMessage from "../components/ErrorMessage.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import FindingsTable from "../components/FindingsTable.jsx";
 import SeverityBadge from "../components/SeverityBadge.jsx";
+import DownloadReportButton from "../components/DownloadReportButton.jsx";
 
 const languageNames = { javascript: "JavaScript", python: "Python", mixed: "JavaScript and Python" };
 const toolNames = { javascript: "ESLint", python: "Ruff", mixed: "ESLint and Ruff" };
@@ -173,7 +174,7 @@ export default function Review() {
         )}
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-start gap-2">
         <Link
           to={`/test-cases/${analysis._id}`}
           className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
@@ -185,6 +186,16 @@ export default function Review() {
           className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50"
         >
           Suggest improvements
+        </Link>
+        <DownloadReportButton
+          id={analysis._id}
+          name={isPr ? `${analysis.github.repoFullName}-${analysis.github.prNumber}` : analysis.projectName}
+        />
+        <Link
+          to="/history"
+          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50"
+        >
+          View history
         </Link>
       </div>
 

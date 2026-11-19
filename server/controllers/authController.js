@@ -4,6 +4,10 @@ import generateToken from "../utils/generateToken.js";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function isStrongPassword(password) {
+  return typeof password === "string" && password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
+}
+
 export async function register(req, res, next) {
   try {
     const { name, email, password } = req.body;
@@ -14,7 +18,7 @@ export async function register(req, res, next) {
     if (!email || !emailPattern.test(email)) {
       return res.status(400).json({ message: "Enter a valid email address" });
     }
-    if (!password || password.length < 8 || !/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+    if (!isStrongPassword(password)) {
       return res
         .status(400)
         .json({ message: "Password must be at least 8 characters and include a letter and a number" });
@@ -58,4 +62,44 @@ export async function login(req, res, next) {
 
 export function me(req, res) {
   res.json({ user: req.user });
+}
+
+export async function updateProfile(req, res, next) {
+  try {
+    const name = String(req.body.name || "").trim();
+    if (name.length < 2 || name.length > 60) {
+      return res.status(400).json({ message: "Name must be between 2 and 60 characters" });
+    }
+    req.user.name = name;
+    await req.user.save();
+    res.json({ user: req.user });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function changePassword(req, res, next) {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Enter your current and new password" });
+    }
+    if (!isStrongPassword(newPassword)) {
+      return res
+        .status(400)
+        .json({ message: "New password must be at least 8 characters and include a letter and a number" });
+    }
+
+    const correct = await bcrypt.compare(currentPassword, req.user.passwordHash);
+    if (!correct) {
+      return res.status(400).json({ message: "Your current password is not correct" });
+    }
+
+    req.user.passwordHash = await bcrypt.hash(newPassword, 12);
+    await req.user.save();
+    res.json({ message: "Password changed" });
+  } catch (err) {
+    next(err);
+  }
 }

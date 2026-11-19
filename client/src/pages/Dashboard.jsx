@@ -98,12 +98,20 @@ export default function Dashboard() {
           title="No analyses yet"
           text="Run your first code analysis to see your activity, charts and recent projects here."
         >
+        <div className="flex flex-wrap gap-2">
+          <Link
+            to="/github"
+            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+          >
+            <Plus size={18} /> Analyze a Pull Request
+          </Link>
           <Link
             to="/analyzer"
-            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50"
           >
-            Analyze your first code
+            Analyze code
           </Link>
+        </div>
         </EmptyState>
       ) : (
         <>

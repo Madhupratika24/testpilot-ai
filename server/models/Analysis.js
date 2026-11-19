@@ -14,6 +14,7 @@ const staticFindingSchema = new mongoose.Schema(
     column: Number,
     snippet: String,
     recommendation: String,
+    inChangedLines: Boolean,
   },
   { _id: false }
 );
@@ -60,15 +61,21 @@ const githubSchema = new mongoose.Schema(
   { _id: false }
 );
 
-// The files of a Pull Request and whether we analyzed them
+// A file of a Pull Request, and whether we analyzed it
 const fileSchema = new mongoose.Schema(
   {
     path: String,
+    language: String,
     status: String,
     additions: Number,
     deletions: Number,
     analyzed: { type: Boolean, default: false },
+    aiReviewed: { type: Boolean, default: false },
     skipReason: String,
+    hiddenFindings: { type: Number, default: 0 }, // issues in unchanged lines that we did not show
+    patch: String, // the diff from GitHub
+    content: String, // the file as it is in the latest commit
+    addedLines: { type: [Number], default: [] }, // line numbers that were added or changed
   },
   { _id: false }
 );
@@ -98,13 +105,12 @@ const analysisSchema = new mongoose.Schema({
   files: { type: [fileSchema], default: [] },
   staticFindings: { type: [staticFindingSchema], default: [] },
   staticError: { type: String, default: "" }, // set when the checker could not run
-  aiError: { type: String, default: "" }, // set when the AI review could not run
   aiFindings: { type: [aiFindingSchema], default: [] },
   aiError: { type: String, default: "" }, // set when the AI review could not run
   testCases: { type: [testCaseSchema], default: [] },
   improvedCode: { type: String, default: "" },
   qualityScore: { type: Number, min: 0, max: 100, default: null },
-  // partial = static analysis worked but the AI review did not (or the other way round)
+  // partial = one part worked and the other did not
   status: { type: String, enum: ["pending", "completed", "partial", "failed"], default: "pending" },
   createdAt: { type: Date, default: Date.now },
 });

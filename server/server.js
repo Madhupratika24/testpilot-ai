@@ -10,6 +10,7 @@ import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import analysisRoutes from "./routes/analysisRoutes.js";
+import githubRoutes from "./routes/githubRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,6 +40,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/analyses", analysisRoutes);
+app.use("/api/github", githubRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -47,6 +49,9 @@ async function start() {
   try {
     if (!process.env.JWT_SECRET) {
       throw new Error("JWT_SECRET is not set in server/.env");
+    }
+    if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET || !process.env.GITHUB_TOKEN_KEY) {
+      console.warn("GitHub settings are missing in server/.env. Connecting GitHub will not work yet.");
     }
     await connectDB();
     app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

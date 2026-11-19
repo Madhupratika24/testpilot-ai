@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
+  GitPullRequest,
   Code2,
   ClipboardCheck,
   FlaskConical,
@@ -15,6 +16,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 
 const mainLinks = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/github", label: "GitHub PRs", icon: GitPullRequest },
   { to: "/analyzer", label: "Code Analyzer", icon: Code2 },
   { to: "/review", label: "Code Review", icon: ClipboardCheck },
   { to: "/test-cases", label: "Test Cases", icon: FlaskConical },

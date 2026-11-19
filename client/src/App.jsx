@@ -6,6 +6,9 @@ import Landing from "./pages/Landing.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import GitHub from "./pages/GitHub.jsx";
+import RepoPullRequests from "./pages/RepoPullRequests.jsx";
+import PullRequestDetails from "./pages/PullRequestDetails.jsx";
 import Analyzer from "./pages/Analyzer.jsx";
 import Review from "./pages/Review.jsx";
 import TestCases from "./pages/TestCases.jsx";
@@ -26,6 +29,9 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/github" element={<GitHub />} />
+          <Route path="/github/:owner/:repo" element={<RepoPullRequests />} />
+          <Route path="/github/:owner/:repo/pulls/:number" element={<PullRequestDetails />} />
           <Route path="/analyzer" element={<Analyzer />} />
           <Route path="/review" element={<Review />} />
           <Route path="/review/:id" element={<Review />} />

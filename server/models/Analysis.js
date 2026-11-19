@@ -42,6 +42,34 @@ const testCaseSchema = new mongoose.Schema(
     input: String,
     expectedOutput: String,
     type: { type: String, enum: ["normal", "edge", "boundary", "invalid"], default: "normal" },
+    file: String,
+    functionName: String,
+  },
+  { _id: false }
+);
+
+// An AI suggestion for improved code (one per file)
+const improvementSchema = new mongoose.Schema(
+  {
+    file: { type: String, default: "" },
+    summary: String,
+    improvedCode: String,
+    changes: [
+      {
+        _id: false,
+        title: String,
+        category: String,
+        explanation: String,
+        behaviorChange: Boolean,
+      },
+    ],
+    check: {
+      checked: Boolean,
+      originalIssues: Number,
+      improvedIssues: Number,
+      improvedSyntaxError: Boolean,
+    },
+    createdAt: { type: Date, default: Date.now },
   },
   { _id: false }
 );
@@ -108,6 +136,7 @@ const analysisSchema = new mongoose.Schema({
   aiFindings: { type: [aiFindingSchema], default: [] },
   aiError: { type: String, default: "" }, // set when the AI review could not run
   testCases: { type: [testCaseSchema], default: [] },
+  improvements: { type: [improvementSchema], default: [] },
   improvedCode: { type: String, default: "" },
   qualityScore: { type: Number, min: 0, max: 100, default: null },
   // partial = one part worked and the other did not

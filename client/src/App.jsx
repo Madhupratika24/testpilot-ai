@@ -36,7 +36,9 @@ export default function App() {
           <Route path="/review" element={<Review />} />
           <Route path="/review/:id" element={<Review />} />
           <Route path="/test-cases" element={<TestCases />} />
+          <Route path="/test-cases/:id" element={<TestCases />} />
           <Route path="/improve" element={<Improve />} />
+          <Route path="/improve/:id" element={<Improve />} />
           <Route path="/history" element={<History />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/profile" element={<Profile />} />

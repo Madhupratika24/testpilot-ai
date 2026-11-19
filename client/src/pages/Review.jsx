@@ -173,6 +173,21 @@ export default function Review() {
         )}
       </div>
 
+      <div className="flex flex-wrap gap-2">
+        <Link
+          to={`/test-cases/${analysis._id}`}
+          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+        >
+          Generate test cases
+        </Link>
+        <Link
+          to={`/improve/${analysis._id}`}
+          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50"
+        >
+          Suggest improvements
+        </Link>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-4">
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
           <p className="text-sm text-slate-500">Quality score</p>

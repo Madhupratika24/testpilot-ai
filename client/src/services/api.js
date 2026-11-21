@@ -1,7 +1,11 @@
 import axios from "axios";
 
+// In development, Vite forwards /api to the local server.
+// In production, VITE_API_URL points to the deployed backend.
+const base = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/$/, "") : "";
+
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: `${base}/api`,
   timeout: 60000,
 });
 

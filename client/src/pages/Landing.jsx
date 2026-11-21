@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import {
   Rocket,
+  GitPullRequest,
   Bug,
-  FlaskConical,
   Sparkles,
+  FlaskConical,
   FileText,
-  History,
   Code2,
   CheckCircle2,
   ArrowRight,
@@ -13,50 +13,50 @@ import {
 
 const features = [
   {
+    icon: GitPullRequest,
+    title: "GitHub Pull Request analysis",
+    text: "Connect GitHub, pick a repository and a Pull Request, and review only the code that changed.",
+  },
+  {
     icon: Bug,
-    title: "Static code analysis",
-    text: "Real linting results from ESLint (JavaScript) and Ruff (Python), with line numbers.",
+    title: "Real static analysis",
+    text: "ESLint (JavaScript) and Ruff (Python) check the changed lines. These results are verified tool output.",
   },
   {
     icon: Sparkles,
     title: "AI-assisted review",
-    text: "Gemini points out possible logic errors, security concerns and performance issues. These are suggestions to check, not proven bugs.",
+    text: "Gemini points out possible logic errors, security concerns and edge cases. These are suggestions, not proven bugs.",
   },
   {
     icon: FlaskConical,
-    title: "Test case generation",
-    text: "Get suggested test cases with inputs, expected outputs, edge cases and boundary cases.",
+    title: "Test case suggestions",
+    text: "Get normal, edge, boundary and invalid-input test cases for the functions that changed.",
   },
   {
     icon: Code2,
     title: "Code improvement",
-    text: "See an improved version of your code side by side with the original, with an explanation.",
-  },
-  {
-    icon: History,
-    title: "Analysis history",
-    text: "Every analysis is saved to your account so you can search it and come back later.",
+    text: "See the original and an improved version side by side, with an explanation and a lint check.",
   },
   {
     icon: FileText,
-    title: "PDF reports",
-    text: "Download a clean report with findings, test cases and recommendations.",
+    title: "History and PDF reports",
+    text: "Every analysis is saved to your account. Search it later and download a clean PDF report.",
   },
 ];
 
 const steps = [
-  { n: "1", title: "Create an account", text: "Register and log in securely." },
-  { n: "2", title: "Add your code", text: "Paste it into the editor or upload a file." },
-  { n: "3", title: "Run the analysis", text: "Static analysis and AI review run together." },
-  { n: "4", title: "Use the results", text: "Generate tests, improve the code, download a report." },
+  { n: "1", title: "Connect GitHub", text: "Sign in and approve the connection with OAuth." },
+  { n: "2", title: "Choose a Pull Request", text: "Pick a repository and one of its Pull Requests." },
+  { n: "3", title: "Analyze the changes", text: "Static tools and AI review the changed code together." },
+  { n: "4", title: "Use the results", text: "Generate tests, improve the code and download a report." },
 ];
 
 const benefits = [
-  "Understand why code has problems, not just that it does",
-  "Catch edge cases you may have missed",
-  "Save time writing test cases",
-  "Keep a history of your code reviews",
-  "Learn better coding practices as you go",
+  "Review focuses on the lines that actually changed",
+  "Verified tool findings are kept separate from AI suggestions",
+  "Line numbers match the Pull Request, so issues are easy to find",
+  "Your code is never executed on the server",
+  "A manual analyzer is included for quick checks of pasted code",
 ];
 
 export default function Landing() {
@@ -77,16 +77,10 @@ export default function Landing() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link
-              to="/login"
-              className="rounded-lg px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
-            >
+            <Link to="/login" className="rounded-lg px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
               Login
             </Link>
-            <Link
-              to="/register"
-              className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
-            >
+            <Link to="/register" className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
               Register
             </Link>
           </div>
@@ -97,14 +91,14 @@ export default function Landing() {
       <section className="bg-gradient-to-b from-indigo-50 to-white">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
           <p className="mb-4 inline-block rounded-full bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-700">
-            AI-powered code review and testing
+            AI-assisted GitHub Pull Request review
           </p>
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            Review code, find problems and generate test cases in one place
+            Review Pull Requests with static analysis and AI
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600">
-            TestPilot AI combines static code analysis with AI-assisted review, so you can
-            understand your code, improve it and test it faster.
+            TestPilot AI reads the code changed in a GitHub Pull Request, checks it with ESLint and
+            Ruff, adds an AI review, and suggests tests and improvements.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
@@ -127,7 +121,7 @@ export default function Landing() {
       <section id="features" className="mx-auto max-w-6xl scroll-mt-20 px-6 py-16">
         <h2 className="text-center text-3xl font-bold">Key features</h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-slate-600">
-          Everything you need to review and test your code, without switching between tools.
+          Everything you need to review and test a Pull Request in one place.
         </p>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {features.map(({ icon: Icon, title, text }) => (
@@ -176,7 +170,7 @@ export default function Landing() {
       {/* Call to action */}
       <section className="bg-slate-900">
         <div className="mx-auto max-w-4xl px-6 py-14 text-center">
-          <h2 className="text-2xl font-bold text-white">Ready to review your first piece of code?</h2>
+          <h2 className="text-2xl font-bold text-white">Ready to review your first Pull Request?</h2>
           <Link
             to="/register"
             className="mt-6 inline-flex items-center gap-2 rounded-lg bg-indigo-500 px-6 py-3 font-medium text-white hover:bg-indigo-400"
@@ -192,7 +186,7 @@ export default function Landing() {
           <span className="flex items-center gap-2">
             <Rocket size={16} className="text-indigo-600" /> TestPilot AI
           </span>
-          <span>Built as an internship project. AI suggestions must be reviewed by the developer.</span>
+          <span>Internship project. AI suggestions must be reviewed by the developer.</span>
         </div>
       </footer>
     </div>

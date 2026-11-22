@@ -7,7 +7,7 @@ RUN apt-get update \
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN npm install --omit=dev --legacy-peer-deps --no-audit --no-fund
 COPY . .
 
 ENV NODE_ENV=production
